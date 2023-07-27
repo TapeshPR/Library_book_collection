@@ -1,0 +1,84 @@
+<script>// Book object constructor
+    function Book(title, author) {
+        this.title = title;
+        this.author = author;
+    }
+    
+    // UI object to handle UI tasks
+    const UI = {
+        displayBooks: function() {
+            const bookTable = document.getElementById('bookTable');
+            bookTable.innerHTML = '';
+    
+            // Iterate through each book in the storage and display it
+            BookStorage.getBooks().forEach(function(book) {
+                const row = bookTable.insertRow();
+    
+                row.innerHTML = `
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td><button onclick="UI.removeBook(${BookStorage.getBooks().indexOf(book)})">Remove</button></td>
+                `;
+            });
+        },
+        addBook: function(book) {
+            const bookTable = document.getElementById('bookTable');
+            const row = bookTable.insertRow();
+    
+            row.innerHTML = `
+                <td>${book.title}</td>
+                <td>${book.author}</td>
+                <td><button onclick="UI.removeBook(${BookStorage.getBooks().indexOf(book)})">Remove</button></td>
+            `;
+        },
+        removeBook: function(index) {
+            BookStorage.removeBook(index);
+            this.displayBooks();
+        },
+        clearFields: function() {
+            document.getElementById('title').value = '';
+            document.getElementById('author').value = '';
+        }
+    }
+    
+    // BookStorage object to handle storing and retrieving books from local storage
+    const BookStorage = {
+        getBooks: function() {
+            let books;
+            if (localStorage.getItem('books') === null) {
+                books = [];
+            } else {
+                books = JSON.parse(localStorage.getItem('books'));
+            }
+            return books;
+        },
+        addBook: function(book) {
+            const books = this.getBooks();
+            books.push(book);
+            localStorage.setItem('books', JSON.stringify(books));
+        },
+        removeBook: function(index) {
+            const books = this.getBooks();
+            books.splice(index, 1);
+            localStorage.setItem('books', JSON.stringify(books));
+        }
+    }
+    
+    // Event listener for submitting the book form
+    document.getElementById('bookForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+    
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+    
+        const book = new Book(title, author);
+        BookStorage.addBook(book);
+        UI.addBook(book);
+        UI.clearFields();
+    });
+    
+    // Display the stored books on page load
+    UI.displayBooks();
+    </script>
+</body>
+</html>

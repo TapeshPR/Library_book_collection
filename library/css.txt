@@ -1,0 +1,35 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+    
+    h1 {
+        text-align: center;
+        border:2px soild black;
+    }
+    
+    form input {
+        padding: 5px;
+        margin-right: 5px;
+    }
+    
+    form button {
+        padding: 5px 10px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    th, td {
+        padding: 8px;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+        background-color: #990e0e;
+    }
+</style>
